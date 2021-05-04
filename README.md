@@ -22,7 +22,7 @@
 
 <h3>The crawler workflow is cyclic :</h3> 
 
-<h4>Crawler -------------> Compressor ---------------> MongoDb --------------> Parse --------------> Server --------------> Crawler</h4>
+<h4>Crawler -------------> Compressor ---------------> MongoDb --------------> Parse --------------> Server -----------> Crawler</h4>
 
 
 <h3>Role of each file is described below :</h3>
