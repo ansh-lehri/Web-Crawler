@@ -21,7 +21,6 @@ class Server:
 
         cleaned_url, url_type = await self.clean_url(url)
         answer = await self.check_and_insert(cleaned_url, url_type, mongodb)
-        print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBb")
         return answer
 
 
@@ -30,7 +29,6 @@ class Server:
     async def clean_url(self, url):
 
         """ remove https:// and www. from start of url """
-        print("0000000000000000000000000000000000000000000000000000000000000000000000000000000")
         url_type = "https"
 
         cleaned_url = url
@@ -58,7 +56,6 @@ class Server:
         """Checks if the url exists in DB. If url does not exist,
         creates a new doc with given url as _id
         """
-        print("#################################################################")
         doc = mongodb.fetch_doc(url, coll=url_type)
         if doc:
             return "NO"
