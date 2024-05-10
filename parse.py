@@ -46,7 +46,6 @@ class Parser:
 
     def is_absolute(self, url):
         absolute = bool(urlparse(url).netloc)
-        print("(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((               ", absolute,"                          ))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))")
         return absolute
 
 
@@ -64,7 +63,6 @@ class Parser:
 
        # reads one document from the database at random.
        # if error is raised, returns.
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         try:
             cursor = mongodb.fetch_random_doc('https3',1)
             for docs in cursor:
@@ -100,7 +98,6 @@ class Parser:
                 urls = await self.correct_url_structure(urls)
             else:
                 url_absolute = urljoin(base_url, urls)
-                print(" A  B  S  O  L  U  T  E   U  R  L  ",base_url,"          >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
                 url_absolute = urldefrag(url_absolute)
                 urls = await self.correct_url_structure(url_absolute[0])
 
@@ -109,9 +106,8 @@ class Parser:
             
             print()
             print()
-            print(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  ",urls,";;;;;;;;;;;;;;;;;;;;;;;;;;;;;")
-
+            
             # put in the parser_server_queue for server to consume. 
             await parser_server_queue.put(urls)
-            print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE") 
+             
         return "DONE" 
