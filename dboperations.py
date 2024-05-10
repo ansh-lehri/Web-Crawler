@@ -15,8 +15,7 @@ class MongoDB:
         # instantiating and establishing connection with database
         mongodb_open = DbConnections(db_name)
         self.db = mongodb_open.client[db_name]
-        print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
-
+        
 
     
     def create_doc(self, data, coll):
@@ -26,7 +25,6 @@ class MongoDB:
             collection.insert_one(data)
             return True
         except Exception as e:
-            print("55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555")
             pprint("Mongodb exception:", e)
             return False
 
