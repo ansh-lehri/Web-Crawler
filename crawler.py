@@ -44,12 +44,10 @@ class Scraper:
                 if flag:
                     tag = soup.html
                     if tag==None:
-                        print("R    E     T     U      R      N       I       N      G")
                         file.close()
                         return
                     new_tag = soup.new_tag("singularity", href=url)
                     if new_tag==None:
-                        print("N  E  W   T  A  G  E  R  R  O  R  ==============================  ",url,"  ===================================================    ")
                         file.close()
                         return 
                     tag.append(new_tag)
@@ -103,7 +101,6 @@ class Scraper:
         # of file else return "Return the Task."
 
         if re.match(r"^[TEXTtext]", content_type) == None:
-            #print("PUSH INTO DATABASE        ------------------------------------------------------------------------------------>", content_type,"                         =======================================")
             return "Return the Task."
 
         else:
@@ -153,7 +150,6 @@ class Scraper:
 
         # if url passed is invalid 
         if request=="":
-            print("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
             return "unsuccessful","","","",""
         print(request.status_code)
 
