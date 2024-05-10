@@ -21,25 +21,23 @@ from server import Server
 from parse import Parser
 from proxy_server import Proxy
 
-print("SSSSSSSSSSSSSSSSSSSSSSSSS")
 # initiate server object.
 server = Server()
-print("PPPPPPPPPPPPPPPPPPPPPPPPPPPP")
 # initiate parser object.
 parsers = Parser()
-print("SSSSSSSSCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+
 # initiate scraper object.
 scrape = Scraper()
-print("CoCoCoCoCoCoCoCoCoCoCo")
+
 # initiate compressor object.
 compressor = Compressor()
-print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
 # creates a connection pool to Server database.
 server_mongodb = MongoDB(db_name='Server')
-print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+
 # creates a connection pool to Compressor database.
 compressor_mongodb = MongoDB(db_name='Compressor')
-print("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+
 
 # counter and document id  variables initial values.
 crawler_doc_id = 0
@@ -69,10 +67,6 @@ async def start_cycle(server_crawler_queue):
 
     for url in urls:
         await server_crawler_queue.put((url,"Yes"))
-    
-    print("YYYYYYEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
-    
-
 
 
 async def compress(compressor_queue: asyncio.Queue):
@@ -86,7 +80,7 @@ async def compress(compressor_queue: asyncio.Queue):
         
         # acting as consumer, fetch tuple from the queue. All the tuple elements
         # are explained in web_page_downloader method below.
-        print("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCcccc")
+        
         url, page_status, content_type, extension = await compressor_queue.get()
         print(compressor_queue.qsize())
 
@@ -106,13 +100,13 @@ async def compress(compressor_queue: asyncio.Queue):
         # for specifications of  'create_mongodb_doc', 'insert_mongodb_doc' methods, refer compressor module.
 
             await compressor.create_mongodb_doc(doc, content_type, extension, mongodb_doc_id, compressor_mongodb)
-            print("44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444")
+            
         elif page_status=="404":
             await compressor.insert_mongodb_doc("Not Crawled", {'_id':url}, compressor_mongodb)
-            print("    IIIIIIIIINNNNNSEEERTTTTTTEEEE   DDDDDDD              404")
+           
         elif page_status=="100":
             await compressor.insert_mongodb_doc("Not Text", {'url':url, 'content_type':content_type}, compressor_mongodb)  
-            print("IIIIIIIIIIIIIIINNNMSSSSSSSSerted          Content")
+         
         #return ""
         # Compressor task recursively calls itself.
         #await compress(compressor_queue)
@@ -123,7 +117,7 @@ async def compress(compressor_queue: asyncio.Queue):
 async def web_page_downloader(server_crawler_queue: asyncio.Queue, compressor_queue: asyncio.Queue, proxy_pool: list):
     
     while True:
-        print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
+     
         global count_crawler
         count_crawler+=1
         # shuffle the server_crawler_queue everytime a task fetches from the queue
@@ -133,10 +127,9 @@ async def web_page_downloader(server_crawler_queue: asyncio.Queue, compressor_qu
         shuffle(server_crawler_queue._queue)
 
         # url ====> web page to download, to_delete ====> signal whether to delete the url
-        #print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
+     
         url, to_delete = await server_crawler_queue.get()  
-        print("C  R  A  W  L  E  R   C  O  U  N  T    =====================       ",count_crawler,"    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ---------------------------------------------------->    ",url)
-
+        
         # index to pass the corresponding proxy to uel page requests.
 
         index = random.randint(1,len(proxy_pool))
@@ -192,7 +185,6 @@ async def serve(parser_server_queue: asyncio.Queue, server_crawler_queue: asynci
     # server being consumer in parser-server linkage, 
     # consumes url from the queue.
     while True:
-        print("SSSSeeeeSSSSSSSSSSSSSSSssseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeSSSSSSSSSSSSSSSSSSSSSseeeeeeeeeeeeeeeeeeeee")
         url = await parser_server_queue.get()
 
         # handle_urls method is called to check if the url is already crawled or not.
@@ -213,7 +205,7 @@ async def serve(parser_server_queue: asyncio.Queue, server_crawler_queue: asynci
             # giving 404 due to blocking of requests.
 
             await server_crawler_queue.put((url,"No"))
-            print("S E R V E R  S I Z E        ------------------>        ",server_crawler_queue.qsize())
+            
         #return ""    
         # server task recursively calls itself.
         await asyncio.sleep(15)
@@ -232,7 +224,7 @@ async def parse(parser_server_queue: asyncio.Queue):
     # parser acts as producer of urls in parser-server linkage
     #await asyncio.sleep(15)
     while True:
-        print("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
+        
         result = await parsers.read_file(parser_server_queue, compressor_mongodb)
 
         # if no web page is found in database, task returns "" as result
