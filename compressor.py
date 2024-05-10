@@ -31,11 +31,11 @@ class Compressor:
     async def insert_mongodb_doc(self, collection, data, mongodb):
         try:
             if mongodb.create_doc(coll=collection, data=data):
-                print("Insertion successful into db YYYYYYYYYYYYYYYYYYYYYaaayyyYyyyy")
+                print("Insertion successful into db")
             else:
                 print("Insertion failed")
         except Exception as e:
-            print(":::::::::::::::::::::::::::::::::    ",e,"      :::::::::::::::::::::::::")
+            print("Error: ",e)
         
 
 
@@ -50,7 +50,7 @@ class Compressor:
             print(e)
             return
         
-        print("33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333")
+        
         data = {
             '_id': mongodb_doc_id,
             # TODO file_type to select dynamically
@@ -69,7 +69,7 @@ class Compressor:
     async def read_file(self,compressor_doc_id, extension):
 
         # reads file from disk.
-        print("222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
+        
         file = open(os.path.join(self.path,"Singularity"+f"{compressor_doc_id}"+"."+extension),'r+',encoding='utf-8')
         doc = file.read()
         file.close()
