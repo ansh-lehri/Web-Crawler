@@ -11,7 +11,7 @@ class DbConnections:
         """ connect to database """
         try:
             self.client = MongoClient(
-                "mongodb+srv://ansh:anshpwd123@cluster0.tdevi.mongodb.net/%s?retryWrites=true&w=majority" % (
+                "mongodb+srv://<username>:<pwd>@cluster0.tdevi.mongodb.net/%s?retryWrites=true&w=majority" % (
                     db_name)
             )
             print("Connection established to online mongodb.")
